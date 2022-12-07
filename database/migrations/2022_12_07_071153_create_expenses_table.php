@@ -15,7 +15,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('expenses', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->uuid('id')->autoIncrement()->primary();
             $table->integer('expenseSector');
             $table->text('description');
             $table->string('amount');

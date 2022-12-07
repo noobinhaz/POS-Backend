@@ -14,11 +14,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('images', function (Blueprint $table) {
-            $table->uuid('id')->autoIncrement()->primary();
+        Schema::create('categories', function (Blueprint $table) {
+            $table->id();
             $table->string('name');
-            $table->string('location');
-            $table->uuid('product')->nullable()->default(Null);
+            $table->boolean('status')->default(true);
             Fields::AddCommonField($table);
         });
     }
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('images');
+        Schema::dropIfExists('categories');
     }
 };

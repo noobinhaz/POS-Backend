@@ -15,13 +15,13 @@ return new class extends Migration
     public function up()
     {
         Schema::create('sales', function (Blueprint $table) {
-            $table->id();
-            $table->integer('product');
+            $table->uuid('id')->autoIncrement()->primary();
+            $table->uuid('product');
             $table->integer('category');
             $table->string('price');
             $table->string('clientName')->nullable()->default(Null);
             $table->string('clientEmail')->nullable()->default(Null);
-            $table->integer('soldBy');
+            $table->uuid('soldBy');
             Fields::AddCommonField($table);
         });
     }

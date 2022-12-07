@@ -14,16 +14,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('products', function (Blueprint $table) {
-            $table->uuid('id')->autoIncrement()->primary();
-            $table->string('productName');
-            $table->integer('quantity');
-            $table->integer('unit');
+        Schema::create('sub_categories', function (Blueprint $table) {
+            $table->id();
             $table->integer('category');
-            $table->integer('subCategory');
-            $table->string('priceCode');
-            $table->text('description');
-            $table->uuid('uploadedBy');
+            $table->string('name');
+            $table->boolean('status')->default(true);
             Fields::AddCommonField($table);
         });
     }
@@ -35,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('sub_categories');
     }
 };

@@ -15,7 +15,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('expense_sectors', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->id();
             $table->string('name');
             $table->text('description');
             Fields::AddCommonField($table);

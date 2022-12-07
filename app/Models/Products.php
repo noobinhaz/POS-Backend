@@ -6,13 +6,13 @@ use App\Models\Sales;
 use App\Models\Images;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use App\Traits\Uuids;
 class Products extends Model
 {
-    use HasFactory;
+    use HasFactory, Uuids;
 
     protected $fillable = [
-        'productName', 'quantity', 'unitCode', 'category',
+        'productName', 'quantity', 'unit', 'category',
         'priceCode', 'description', 'uploadedBy'
     ];
 

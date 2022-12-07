@@ -5,10 +5,10 @@ namespace App\Models;
 use App\Models\Products;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use App\Traits\Uuids;
 class Sales extends Model
 {
-    use HasFactory;
+    use HasFactory, Uuids;
 
     protected $fillable = [
         'product', 'price', 'clientName', 'clientEmail', 'soldBy', 'category'
