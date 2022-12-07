@@ -14,15 +14,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('products', function (Blueprint $table) {
-            $table->id();
-            $table->string('productName');
-            $table->integer('quantity');
-            $table->integer('unitCode');
-            $table->integer('category');
-            $table->string('priceCode');
+        Schema::create('expense_sectors', function (Blueprint $table) {
+            $table->uuid('id');
+            $table->string('name');
             $table->text('description');
-            $table->integer('uploadedBy');
             Fields::AddCommonField($table);
         });
     }
@@ -34,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('expense_sectors');
     }
 };
