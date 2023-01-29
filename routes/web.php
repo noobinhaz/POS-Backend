@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\UserControl;
+use App\Http\Controllers\ProductControl;
+use App\Http\Controllers\Dash\DashboardControl;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,6 +15,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+
+
+Route::group(['middleware' => ['auth:api']], function () {
+    Route::resource('/users', UserControl::class);
+    Route::resource('/products', ProductControl::class);
 });
+
+Route::get('/dashboard', [DashboardControl::class, 'index']);
+
+Route::get('/', [userControl::class, 'login']);
+
+//login users
+Route::post('/users/authenticate', [userControl::class, 'authenticate']);

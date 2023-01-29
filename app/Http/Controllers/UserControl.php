@@ -61,7 +61,7 @@ class UserControl extends Controller
 
    
     public function authenticate(Request $request){
-        $data = []; 
+        // dd($request->all());
         try {
             
             $formFields = $request->validate([
@@ -71,25 +71,20 @@ class UserControl extends Controller
     
             
             if(auth()->attempt($formFields)){
-                $user = Auth::user();
-                $token = $user->createToken('access_token')->accessToken;
-                $user = User::find($user->id);
-                $data['data']['user'] = $user;
-                $data['data']['token'] = $token;
-                $data['isSuccess'] = true;
-                $data['message'] = "Authorized! You are now logged in.";
+                $request->session()->regenerate();
             }else{
                 throw new \Exception('Invalid username/password');
             }
-            return response()->json($data, HttpStatus::OK);
+            
+            return redirect('/dashboard')->with('message', 'Authentication Success! Logged in!');
         } catch (\Throwable $th) {
-            return response()->json([
-                'isSuccess' => false,
-                'message' => $th->getMessage(),
-                'data' => []
-            ], HttpStatus::UNAUTHORIZED);
+            return back()->withErrors(["userName"=>"Invalid userName", "password"=>"Invalid Password"]);
         }
 
+    }
+
+    public function login(Request $request){
+        return view('Users.login');
     }
 }   
 

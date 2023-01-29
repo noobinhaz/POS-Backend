@@ -29,8 +29,8 @@ class UserSeed extends Seeder
         $users = [
             [
                 'id'=>'6f4c6a76-6785-41ab-b810-448349de43f2',
-                'userType'=> 0,
-                'userName'=>"SuperAdmin", 
+                'userType'=> 1,
+                'userName'=>"superAdmin", 
                 'fullName'=>"Super Mate",
                 "gender"=>"M",
                 "email"=>"raigen75@gmail.com",
@@ -39,8 +39,8 @@ class UserSeed extends Seeder
             ],
             [
                 'id'=>'448349de43f2-6785-41ab-b810-6f4c6a76',
-                'userType'=> 1,
-                'userName'=>"Manager", 
+                'userType'=> 2,
+                'userName'=>"manager", 
                 'fullName'=>"User",
                 "gender"=>"M",
                 "email"=>"something@gmail.com",
