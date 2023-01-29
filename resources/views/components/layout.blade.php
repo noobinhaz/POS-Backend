@@ -16,8 +16,8 @@
         <div class="col-md-2">
           <div class="list-group">
             <a href="/dashboard" class="list-group-item list-group-item-action">Dashboard</a>
-            <div class="btn-group dropright">
-                <button class="btn bg-white text-black dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <div class="btn-group list-group-item list-group-item-action dropright">
+                <button class="btn bg-white text-grey dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Setup
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">

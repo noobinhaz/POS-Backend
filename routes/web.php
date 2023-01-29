@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserControl;
 use App\Http\Controllers\ProductControl;
 use App\Http\Controllers\Dash\DashboardControl;
+use App\Http\Controllers\Base\CategoryControl;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,12 +19,17 @@ use App\Http\Controllers\Dash\DashboardControl;
 
 
 
-Route::group(['middleware' => ['auth:api']], function () {
+Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::resource('/users', UserControl::class);
+    
+    Route::get('/dashboard', [DashboardControl::class, 'index']);
+    Route::get('/addCat', [CategoryControl::class, 'showForm']);
+    
     Route::resource('/products', ProductControl::class);
+    Route::resource('/category', CategoryControl::class);
 });
 
-Route::get('/dashboard', [DashboardControl::class, 'index']);
+
 
 Route::get('/', [userControl::class, 'login']);
 

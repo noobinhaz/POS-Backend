@@ -11,84 +11,62 @@ class CategoryControl extends Controller
     //
     public function index(){
 
-        $categories = Categories::with(['products' => function($query) {
-            $query->count('id');
-        }])->whereNull('deleted_at')->get();
+        $categories = Categories::whereNull('categories.deleted_at')->get();
 
-        return response()->json([
-            'isSuccess' => $categories->count() ? true: false,
-            'message'   => $categories->count() ? '' : 'No categories found',
-            'data'      => $categories
+        return view('Setup.category')->with(['categories'=> $categories]);
+    }
 
-        ], 200);
+    public function showForm(){
+        return view('Create.category');
     }
 
     public function store(Request $request){
+        
         try {
             //code...
             $form = $request->validate([
-                'name' => ['required', 'string']
+                'name' => ['required', 'string'],
+                'status' => 'nullable | integer'
             ]);
 
             Categories::create($form);
 
-            return response()->json([
-                'isSuccess' => true,
-                'message'   => 'Category create successfully',
-                'date'      => []
-            ], 200);
+            return redirect('/addCat')->with('success','Category Created Successfully');
 
         } catch (\Throwable $th) {
             //throw $th;
-            return response()->json([
-                'isSuccess' => false,
-                'message'   => $th->getMessage(),
-                'date'      => []
-            ], 422);
+            return back()->withErrors(["name"=>$th->getMessage()]);
         }
     }
 
     public function show($id){
-        $category = Categories::with(['products'])->find($id);
+        // dd($id);
+        $category = Categories::find($id);
         
-        return response()->json([
-            'isSuccess' => $category ? true: false,
-            'message'   => $category ? '' : 'No category found',
-            'data'      => $category
-
-        ], 200);
+        return view('Edit.category')->with(['category'=>$category]);
     }
 
-    public function update($id){
+    public function update(Request $request, $id){
+        // dd($request->all());
         try {
             //code...
             $form = $request->validate([
-                'name' => ['required', 'string']
+                'name' => 'nullable | string',
+                'status' => 'nullable | integer'
             ]);
 
             Categories::where('id', $id)->update($form);
 
-            return response()->json([
-                'isSuccess' => true,
-                'message'   => 'Category updated successfully',
-                'date'      => []
-            ], 200);
+            return redirect('/category')->with('message', 'Successfully Updated!');
 
         } catch (\Throwable $th) {
-            return response()->json([
-                'isSuccess' => false,
-                'message'   => $th->getMessage(),
-                'date'      => []
-            ], 422);
+            dd($th->getMessage());
+            return back()->withErrors(["name"=>$th->getMessage()]);
         }
     }
     public function destroy($id){
         $delete = Categories::where('id', $id)->update(['deleted_at' => now()]);
 
-        return response()->json([
-            'isSuccess' => $delete ? true : false,
-            'message'   => $delete ? 'Deleted successfully' : 'Delete failed',
-            'date'      => []
-        ], $delete ? 200 : 422);
+        return redirect('/category')->with('message', 'Successfully Deleted!');
     }
 }
