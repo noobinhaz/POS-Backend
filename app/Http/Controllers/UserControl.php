@@ -10,6 +10,9 @@ use App\Engine\HttpStatus\HttpStatus;
 class UserControl extends Controller
 {
     //
+    public function register(){
+        return view('Create.user');
+    }
 
     public function store(Request $request){
         try {
@@ -24,6 +27,12 @@ class UserControl extends Controller
                 'mobileNumber' => ['required', 'string'],
             ]);
 
+            if($formFields['password'] != $request->confirm_password){
+                return back()->with('error','Password and Confirm password should match');
+            }
+
+            dd($formFields['password'] , $request->confirm_password);
+
             $formFields['password'] = bcrypt($formFields['password']);
             // $formFields['created_by'] = auth()->user()->id;
 
@@ -31,31 +40,29 @@ class UserControl extends Controller
 
             $message = 'User Created Successfully';
             
-            return response()->json([
-                'isSuccess' => true,
-                'message' => $message,
-                'data' => []
-            ], HttpStatus::OK);
+            return redirect('/register')->with('success','User Created Successfully');
 
         } catch (\Throwable $th) {
-            return response()->json([
-                'isSuccess' => false,
-                'message' => $th->getMessage(),
-                'data' => []
-            ], HttpStatus::BAD_REQUEST);
+            return back()->with('error',$th->getMessage());
+
         }
     }
     public function index(){
-        $users = User::get();
-
-        return response()->json([$users], 200);
+        $users = User::paginate(10);
+        $fields = ['Serial','Full Name', 'User Name', 'User Type', 'Email', 'Mobile Number', 'Action'];
+        
+        return view('Users.index')->with(['data'=> $users, 'fields'=> $fields]);
     }
 
     public function edit(Request $request, $id){
 
     }
     
-    public function delete(Request $request, $id){}
+    public function destroy(Request $request, $id){
+        User::where('id', $id)->delete();
+
+        return redirect('users')->with('message', 'User Deleted Successfully');
+    }
 
     public function update(Request $request, $id){}
 
@@ -63,7 +70,7 @@ class UserControl extends Controller
     public function authenticate(Request $request){
         // dd($request->all());
         try {
-            
+
             $formFields = $request->validate([
                 'userName' => ['required', 'string'],
                 'password' => ['required', 'string']

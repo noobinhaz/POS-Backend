@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserControl;
 use App\Http\Controllers\ProductControl;
+use App\Http\Controllers\Base\UnitControl;
 use App\Http\Controllers\Dash\DashboardControl;
 use App\Http\Controllers\Base\CategoryControl;
 /*
@@ -20,11 +21,15 @@ use App\Http\Controllers\Base\CategoryControl;
 
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::resource('/users', UserControl::class);
     
     Route::get('/dashboard', [DashboardControl::class, 'index']);
     Route::get('/addCat', [CategoryControl::class, 'showForm']);
+    Route::get('/addUnit', [UnitControl::class, 'showForm']);
+    Route::get('/register', [UserControl::class, 'register']);
     
+    
+    Route::resource('/unit', UnitControl::class);
+    Route::resource('/users', UserControl::class);
     Route::resource('/products', ProductControl::class);
     Route::resource('/category', CategoryControl::class);
 });

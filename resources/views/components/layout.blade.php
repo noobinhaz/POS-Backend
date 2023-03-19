@@ -10,6 +10,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
   </head>
   <body>
+   
     <div class="container-fluid">
       <h1 class="text-center mb-3">POS Admin Dashboard</h1>
       <div class="row">
@@ -34,6 +35,7 @@
           </div>
         </div>
         <div class="col-md-10">
+           <x-flash />
             {{$slot}}
         </div>
         </div>

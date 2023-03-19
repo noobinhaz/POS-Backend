@@ -11,13 +11,16 @@ class CategoryControl extends Controller
     //
     public function index(){
 
-        $categories = Categories::whereNull('categories.deleted_at')->get();
+        $categories = Categories::whereNull('categories.deleted_at')->paginate(10);
 
-        return view('Setup.category')->with(['categories'=> $categories]);
+        $fields = ['Serial', 'Category Name', 'Status', 'Action'];
+
+        return view('Setup.base_list')->with(['data'=> $categories, 'fields'=> $fields, 'add_new'=>'/addCat', 'route'=> "/category"]);
     }
 
     public function showForm(){
-        return view('Create.category');
+        $fields = ['Category name'=>'name'];
+        return view('Create.base_create')->with(['fields' => $fields, 'route'=> "/category"]);
     }
 
     public function store(Request $request){
@@ -42,8 +45,8 @@ class CategoryControl extends Controller
     public function show($id){
         // dd($id);
         $category = Categories::find($id);
-        
-        return view('Edit.category')->with(['category'=>$category]);
+        $fields = ['Category name'=>'name'];
+        return view('Edit.base_edit')->with(['data'=>$category, 'fields' => $fields, 'route'=> "/category"]);
     }
 
     public function update(Request $request, $id){
@@ -60,7 +63,7 @@ class CategoryControl extends Controller
             return redirect('/category')->with('message', 'Successfully Updated!');
 
         } catch (\Throwable $th) {
-            dd($th->getMessage());
+            
             return back()->withErrors(["name"=>$th->getMessage()]);
         }
     }
