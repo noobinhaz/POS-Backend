@@ -28,8 +28,11 @@
                     <td>{{$datam->description}}</td>
                     @endunless
                     <td>{{$datam->status ? 'Active' : 'Inactive'}}</td>
-                    <th class='d-flex justify-content-left '><button class="btn btn-info">View Products</button> 
-                        <button class="btn btn-warning mx-2"><a href="{{$route}}/{{$datam->id}}" style="display:block; color:black">Edit</a></button>
+                    <th class='d-flex justify-content-left '>
+                        @if($view == true)
+                        <a href="/category/{{$datam->id}}" class="btn btn-info">View Products</a> 
+                        @endif
+                        <a href="{{$route}}/{{$datam->id}}/edit" class="btn btn-warning mx-2" style="display:block; color:black">Edit</a>
                         <form method='POST' action="{{$route}}/{{$datam->id}}">@method("delete") @csrf<button type="submit" class="btn btn-danger">Delete</button></form>
                     </th>
                 </tr>

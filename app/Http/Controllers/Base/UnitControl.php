@@ -14,7 +14,7 @@ public function index(){
 
         $fields = ['Serial', 'Unit Name', 'description', 'Status', 'Action'];
 
-        return view('Setup.base_list')->with(['data'=> $units, 'fields'=> $fields, 'add_new'=>'/addUnit', 'route'=> "/unit"]);
+        return view('Setup.base_list')->with(['data'=> $units, 'fields'=> $fields, 'add_new'=>'/addUnit', 'route'=> "/unit", 'view'=>false]);
     }
 
     public function showForm(){
@@ -44,6 +44,10 @@ public function index(){
 
     public function show($id){
         // dd($id);
+        
+    }
+
+    public function edit($id){
         $unit = Units::find($id);
         $fields = ['Unit Name'=>'name', 'Description' => 'description'];
         return view('Edit.base_edit')->with(['data'=>$unit, 'fields' => $fields, 'route'=> "/unit"]);

@@ -22,7 +22,7 @@ class Products extends Model
     ];
 
     public function images(){
-        return $this->hasMany(Images::class)->select('name', 'location', 'product');
+        return $this->hasMany(Images::class, 'products_id', 'id')->select('name', 'location', 'products_id');
     }
 
     public function sales(){

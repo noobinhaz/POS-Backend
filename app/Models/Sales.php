@@ -11,7 +11,7 @@ class Sales extends Model
     use HasFactory, Uuids;
 
     protected $fillable = [
-        'product', 'price', 'clientName', 'clientEmail', 'soldBy', 'category'
+        'products_id', 'price', 'clientName', 'clientEmail'
     ];
 
     public function product(){

@@ -1,0 +1,15 @@
+.carousel-item img {
+    height: 300px;
+}
+
+.card {
+    margin-bottom: 20px;
+}
+
+.card-title {
+    margin-bottom: 10px;
+}
+
+.card-text strong {
+    margin-right: 5px;
+}

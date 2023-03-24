@@ -16,12 +16,12 @@ return new class extends Migration
     {
         Schema::create('sales', function (Blueprint $table) {
             $table->uuid('id')->autoIncrement()->primary();
-            $table->uuid('product');
-            $table->integer('category');
+            $table->uuid('products_id');
             $table->string('price');
+            $table->integer('quantity');
+            $table->integer('unit_id');
             $table->string('clientName')->nullable()->default(Null);
             $table->string('clientEmail')->nullable()->default(Null);
-            $table->uuid('soldBy');
             Fields::AddCommonField($table);
         });
     }

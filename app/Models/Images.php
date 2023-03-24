@@ -11,10 +11,10 @@ class Images extends Model
     use HasFactory, Uuids;
 
     protected $fillable = [
-        'name', 'location', 'product'
+        'name', 'location', 'products_id'
     ];
 
     public function product(){
-        return $this->belongsTo(Products::class, 'product');
+        return $this->belongsTo(Products::class, 'products_id', 'id');
     }
 }

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->uuid('id')->autoIncrement()->primary();
             $table->string('name');
             $table->string('location');
-            $table->uuid('product')->nullable()->default(Null);
+            $table->uuid('products_id')->nullable()->default(Null);
             Fields::AddCommonField($table);
         });
     }

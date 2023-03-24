@@ -31,7 +31,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     
     Route::resource('/unit', UnitControl::class);
     Route::resource('/users', UserControl::class);
-    Route::resource('/products', ProductControl::class);
+    Route::resource('/products', ProductControl::class)->except('update');
+    Route::post('/products/{id}', [ProductControl::class, 'update']);
     Route::resource('/category', CategoryControl::class);
 });
 

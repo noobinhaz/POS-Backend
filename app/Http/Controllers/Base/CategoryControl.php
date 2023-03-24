@@ -15,7 +15,7 @@ class CategoryControl extends Controller
 
         $fields = ['Serial', 'Category Name', 'Status', 'Action'];
 
-        return view('Setup.base_list')->with(['data'=> $categories, 'fields'=> $fields, 'add_new'=>'/addCat', 'route'=> "/category"]);
+        return view('Setup.base_list')->with(['data'=> $categories, 'fields'=> $fields, 'add_new'=>'/addCat', 'route'=> "/category", 'view'=>true]);
     }
 
     public function showForm(){
@@ -43,7 +43,12 @@ class CategoryControl extends Controller
     }
 
     public function show($id){
-        // dd($id);
+        $category = Categories::with(['products'])->find($id);
+        return view('Show.productByCategory')->with(['category' => $category]);
+        
+    }
+
+    public function edit($id){
         $category = Categories::find($id);
         $fields = ['Category name'=>'name'];
         return view('Edit.base_edit')->with(['data'=>$category, 'fields' => $fields, 'route'=> "/category"]);
