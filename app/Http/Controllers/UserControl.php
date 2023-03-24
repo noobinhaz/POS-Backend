@@ -31,8 +31,6 @@ class UserControl extends Controller
                 return back()->with('error','Password and Confirm password should match');
             }
 
-            dd($formFields['password'] , $request->confirm_password);
-
             $formFields['password'] = bcrypt($formFields['password']);
             // $formFields['created_by'] = auth()->user()->id;
 
@@ -54,8 +52,9 @@ class UserControl extends Controller
         return view('Users.index')->with(['data'=> $users, 'fields'=> $fields]);
     }
 
-    public function edit(Request $request, $id){
-
+    public function show(Request $request, $id){
+        $user = User::find($id);
+        return view('Edit.user')->with(['data'=>$user]);
     }
     
     public function destroy(Request $request, $id){
@@ -64,7 +63,40 @@ class UserControl extends Controller
         return redirect('users')->with('message', 'User Deleted Successfully');
     }
 
-    public function update(Request $request, $id){}
+    public function update(Request $request, $id){
+        // dd($request->all());
+        try {
+            
+            $formFields = $request->validate([
+                'userType' => ['required', 'integer'],
+                'userName' => ['required', 'string'],
+                'fullName' => ['required', 'string'],
+                'gender' => ['required', 'string'],
+                'email' => ['required', 'string'],
+                
+                'mobileNumber' => ['required', 'string'],
+            ]);
+
+            if(!empty($request->password)){
+
+                if($request->password != $request->confirm_password){
+                    return back()->with('error','Password and Confirm password should match');
+                }
+
+                $formFields['password'] = bcrypt($request->password);
+            }
+
+            // $formFields['created_by'] = auth()->user()->id;
+
+            User::where('id', $id)->update($formFields);
+            
+            return redirect('/users')->with('success','User Updated Successfully');
+
+        } catch (\Throwable $th) {
+            return back()->with('error',$th->getMessage());
+
+        }
+    }
 
    
     public function authenticate(Request $request){

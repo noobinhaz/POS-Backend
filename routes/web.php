@@ -26,6 +26,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/addCat', [CategoryControl::class, 'showForm']);
     Route::get('/addUnit', [UnitControl::class, 'showForm']);
     Route::get('/register', [UserControl::class, 'register']);
+    Route::get('/addProduct', [ProductControl::class, 'addProduct']);
     
     
     Route::resource('/unit', UnitControl::class);

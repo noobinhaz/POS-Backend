@@ -9,13 +9,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Traits\Uuids;
 use App\Models\CategoriesProduct;
 use App\Models\Categories;
+use App\Models\Units;
 
 class Products extends Model
 {
     use HasFactory, Uuids;
 
     protected $fillable = [
-        'productName', 'quantity', 'unit', 'category',
+        'productName', 'quantity', 'unit', 
+        // 'category',
         'priceCode', 'description', 'uploadedBy'
     ];
 
@@ -33,5 +35,9 @@ class Products extends Model
 
     public function categories_products(){
         return $this->hasMany(CategoriesProduct::class, 'product_id', 'id');
+    }
+
+    public function unitInfo(){
+        return $this->belongsTo(Units::class, 'unit', 'id');
     }
 }

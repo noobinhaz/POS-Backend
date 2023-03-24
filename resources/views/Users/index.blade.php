@@ -2,7 +2,7 @@
     <div>
         <div class='d-flex justify-content-end'>
 
-            <a href="/register" style="display:block; color:black"><button class="btn btn-success">Add New</button></a>
+            <a href="/register" class="text-reset text-decoration-none" style="display:block; color:black"><button class="btn btn-success">Add New</button></a>
         </div>
         <table class='table'>
             @unless(count($data) == 0 )
@@ -31,7 +31,9 @@
                     <td><u>{{$datam->mobileNumber}}</u></td>
                     <!-- <td>{{$datam->status ? 'Active' : 'Inactive'}}</td> -->
                     <th class='d-flex justify-content-left '>
-                        <button class="btn btn-warning mx-2"><a href="/users/{{$datam->id}}" style="display:block; color:black">Edit</a></button>
+                        <a href="/users/{{$datam->id}}" style="display:block; color:black">
+                            <button class="btn btn-warning mx-2">Edit</button>
+                        </a>
                         <form method='POST' action="/users/{{$datam->id}}">@method("delete") @csrf<button type="submit" class="btn btn-danger">Delete</button></form>
                     </th>
                 </tr>

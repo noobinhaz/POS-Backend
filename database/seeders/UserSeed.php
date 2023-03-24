@@ -48,7 +48,7 @@ class UserSeed extends Seeder
                 "password"=>self::getPassword()
             ]
         ];
-        User::insert($users);
+        User::truncate()->insert($users);
         
     }
     /**

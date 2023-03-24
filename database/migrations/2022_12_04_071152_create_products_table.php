@@ -19,8 +19,7 @@ return new class extends Migration
             $table->string('productName');
             $table->integer('quantity');
             $table->integer('unit');
-            $table->integer('category');
-            $table->integer('subCategory');
+            // $table->integer('category');
             $table->string('priceCode');
             $table->text('description');
             $table->uuid('uploadedBy');
