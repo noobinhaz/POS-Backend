@@ -21,6 +21,16 @@ class ProductControl extends Controller
         $products = Products::with(['categories', 'unitInfo'])->whereNull('deleted_at')->paginate(10);
         return view('Setup.product')->with(['data'=> $products]);
     }
+
+    public function search(){
+        $search = request('search');
+        $products = Products::with(['categories', 'unitInfo'])->whereNull('deleted_at')
+                    -where('productName', 'LIKE', '%'.$query.'%')
+                    ->orWhere('description', 'LIKE', '%'.$query.'%')
+                    ->paginate(10);
+
+        return view('Create.sales')->with(['data'=> $products, 'taxRate'=>15]);
+    }
     public function addProduct(){
         $categories = Categories::where('status', 1)->whereNull('deleted_at')->get();
         $units = Units::where('status', 1)->whereNull('deleted_at')->get();

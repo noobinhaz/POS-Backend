@@ -25,6 +25,10 @@ class Products extends Model
         return $this->hasMany(Images::class, 'products_id', 'id')->select('name', 'location', 'products_id');
     }
 
+    public function image(){
+        return $this->hasOne(Images::class, 'products_id', 'id')->select('name', 'location', 'products_id');
+    }
+
     public function sales(){
         return $this->hasMany(Sales::class)->select('product', 'price', 'clientName', 'clientEmail', 'soldBy', 'created_at', 'updated_at');
     }

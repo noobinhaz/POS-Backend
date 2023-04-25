@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductControl;
 use App\Http\Controllers\Base\UnitControl;
 use App\Http\Controllers\Dash\DashboardControl;
 use App\Http\Controllers\Base\CategoryControl;
+use App\Http\Controllers\SalesController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,6 +28,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/addUnit', [UnitControl::class, 'showForm']);
     Route::get('/register', [UserControl::class, 'register']);
     Route::get('/addProduct', [ProductControl::class, 'addProduct']);
+
+    // Route::get('/search', [ProductControl::class, 'search']);
     
     
     Route::resource('/unit', UnitControl::class);
@@ -34,6 +37,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::resource('/products', ProductControl::class)->except('update');
     Route::post('/products/{id}', [ProductControl::class, 'update']);
     Route::resource('/category', CategoryControl::class);
+    Route::resource('/order', SalesController::class);
 });
 
 

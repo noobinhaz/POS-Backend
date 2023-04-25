@@ -1,0 +1,63 @@
+<x-layout>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#search-product").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $(".product-list .product").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+
+            $(".product").on("click", function () {
+                var product_id = $(this).attr("data-id");
+                var product_name = $(this).find(".product-name").text();
+                var product_price_code = $(this).find(".product-price-code").text();
+                var product_quantity = $(this).find(".product-quantity").text();
+                var product_price = prompt("Enter price for " + product_name);
+                if (product_price !== null && product_price !== "") {
+                    var total_cost = parseFloat($("#total-cost").text()) + parseFloat(product_price);
+                    $("#total-cost").text(total_cost.toFixed(2));
+                    $("#sales-list").append("<li>" + product_name + " (Price: " + product_price + ")</li>");
+                    $("#sales-form").append("<input type='hidden' name='product_id[]' value='" + product_id + "'>");
+                    $("#sales-form").append("<input type='hidden' name='product_quantity[]' value='" + product_quantity + "'>");
+                    $("#sales-form").append("<input type='hidden' name='product_price[]' value='" + product_price + "'>");
+                }
+            });
+        });
+    </script>
+    <div class="container">
+        <h2>Sales</h2>
+        <div class="form-group">
+            <label for="search-product">Search Product:</label>
+            <input type="text" class="form-control" id="search-product">
+        </div>
+        <div class="product-list">
+            @foreach($products as $index=>$product)
+            <div class="product row " data-id="{{ $product->id }}">
+                <span class="mr-5">{{$index + 1}}</span>
+                <span class="product-name mr-5">{{ $product->productName }}</span>
+                <span class="product-price-code mr-5">{{ $product->priceCode }}</span>
+                <span class="product-quantity">{{ $product->quantity }}</span>
+            </div>
+            @endforeach
+        </div>
+        <hr>
+        <h4>Sales List:</h4>
+        <ul id="sales-list">
+        </ul>
+        <div>Total Cost: $<span id="total-cost">0.00</span></div>
+        <form method="post" action="/order">
+            @csrf
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Checkout</button>
+            </div>
+            <div id="sales-form"></div>
+        </form>
+    </div>
+
+</x-layout>
