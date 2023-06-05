@@ -15,10 +15,10 @@ class CategoryControl extends Controller
 
         $fields = ['Serial', 'Category Name', 'Status', 'Action'];
 
-        return view('Setup.base_list')->with(['data'=> $categories, 'fields'=> $fields, 'add_new'=>'/addCat', 'route'=> "/category", 'view'=>true]);
+        return view('Setup.base_list')->with(['data'=> $categories, 'fields'=> $fields, 'add_new'=>'/category/create', 'route'=> "/category", 'view'=>true]);
     }
 
-    public function showForm(){
+    public function create(){
         $fields = ['Category name'=>'name'];
         return view('Create.base_create')->with(['fields' => $fields, 'route'=> "/category"]);
     }
@@ -34,7 +34,7 @@ class CategoryControl extends Controller
 
             Categories::create($form);
 
-            return redirect('/addCat')->with('success','Category Created Successfully');
+            return redirect('/category/create')->with('success','Category Created Successfully');
 
         } catch (\Throwable $th) {
             //throw $th;

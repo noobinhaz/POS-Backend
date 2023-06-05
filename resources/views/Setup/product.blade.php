@@ -3,7 +3,7 @@
     <div class="container">
         <div class="row d-flex justify-content-between">
             <h2>Products</h2>
-            <a href="/addProduct" class="btn btn-success mb-3">Add Product</a>
+            <a href="/products/create" class="btn btn-success mb-3">Add Product</a>
         </div>
         <table class="table">
             <thead>

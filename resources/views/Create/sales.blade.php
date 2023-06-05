@@ -1,9 +1,8 @@
 <x-layout>
-
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h2>Make a Sale</h2>
+                <h2>POS Order</h2>
                 <hr>
             </div>
         </div>
@@ -19,8 +18,9 @@
                 </form>
 
                 <div class="list-group" id="searchResults">
-                    <!-- Search results will be added dynamically here --> 
-                    //FIXME: work on this with the help of other file
+                    <!-- Product search results will be added dynamically here -->
+                    <!-- Use JavaScript/jQuery to handle adding products to the order table -->
+
                     @unless(empty($data))
                     <table>
                         <thead>
@@ -34,10 +34,8 @@
                         </thead>
                         <tbody>
                             @foreach($data as $index=>$product)
-                            <tr 
-                            onclick="addProductRow(this)">
-                            <!-- onclick = "clickOnTr(this)" -->
-                                <td>{{$index + 1}} </td>
+                            <tr onclick="addProductRow(this)">
+                                <td>{{$product->id}} </td>
                                 <td><img src="{{ $product->image ? asset($product->image->location) : 'https://placehold.co/100'}}" alt="{{$product->image ? $product->image->name: null}}" style="height: 100px; width:100px;"></td>
                                 <td>{{$product->productName}}</td>
                                 <td>{{$product->quantity}}</td>
@@ -47,188 +45,185 @@
                         </tbody>
                     </table>
                     @else
-                        <span>No Product Found</span>
+                    <span>No Product Found</span>
                     @endunless
                 </div>
             </div>
+            <hr>
             <div class="col-md-8">
                 <div class="row">
                     <div class="col-md-12">
                         <h4>Selected Products</h4>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Product Name</th>
-                                    <th>Available</th>
-                                    <th>Quantity</th>
-                                    <th>Price</th>
-                                    <th>Total</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody id="selectedProducts">
-                               
-                                <!-- Selected products will be added dynamically here -->
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="3" align="right">Subtotal:</td>
-                                    <td colspan="2" align="right" id="subtotal">$0.00</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3" align="right">Tax ({{ $taxRate }}%):</td>
-                                    <td colspan="2" align="right" id="tax">$0.00</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3" align="right">Total:</td>
-                                    <td colspan="2" align="right" id="total">$0.00</td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="discount">Discount (%)</label>
-                            <input type="number" class="form-control" id="discount" value="0">
-                        </div>
-                        <div class="form-group">
-                            <label for="paymentMethod">Payment Method</label>
-                            <select class="form-control" id="paymentMethod">
-                                <option value="cash">Cash</option>
-                                <option value="credit">Credit Card</option>
-                                <option value="debit">Debit Card</option>
-                                <option value="cheque">Cheque</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="amountReceived">Amount Received</label>
-                            <input type="number" class="form-control" id="amountReceived" value="0">
-                        </div>
-                        <button class="btn btn-success btn-lg btn-block" id="checkoutBtn">Checkout</button>
+                        <form action="/order" method="post" id="productForm">
+                            @csrf
+
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Product Name</th>
+                                        <th>In Store</th>
+                                        <th>Quantity</th>
+                                        <th>Price</th>
+                                        <th>Subtotal</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="selectedProducts">
+                                    <!-- Selected products will be added dynamically here -->
+                                    <!-- Use JavaScript/jQuery to handle removing products from the order table -->
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="3" align="right">Total:</td>
+                                        <td colspan="2" align="right" id="total">&#2547;0.00</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                            <div class="row justify-content-between align-items-center">
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-6 pt-2">
+                                        <label for="clientName">Client Name:</label>
+                                    </div>
+                                    <div class="col-md-7 col-sm-6">
+                                        <input type="text" name="clientName" placeholder="Client Name" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-6 pt-2">
+                                        <label for="clientEmail">Client Email:</label>
+                                    </div>
+                                    <div class="col-md-7 col-sm-6">
+                                        <input type="text" name="clientEmail" placeholder="Client Email" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button class="btn btn-success btn-lg btn-block" id="checkoutBtn" type="submit">Checkout</button>
+                                </div>
+                            </div>
+
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <script>
+        // JavaScript/jQuery code for handling the dynamic addition and removal of products in the order table
 
-<script>
-    const price = [];
-    const quantity = [];
+        // Function to add a product row to the table
+        function addProductRow(e) {
+            const cells = e.cells;
+            const productName = cells[2].textContent;
+            const quantity = cells[3].textContent;
+            const id = cells[4].textContent;
+            
+            const form = document.getElementById('productForm');
 
-    function clickOnTr(e){
-        const cells = e.cells;
-        const productName = cells[2].textContent;
-        quantity = cells[3].textContent;
-        const id = cells[4].textContent;
-        price = 0;
+            // Create a new row
+            const newRow = document.createElement('tr');
 
-        const targetTable = document.getElementById('selectedProducts');
+            const idCell = document.createElement('td');
+            const idInput = document.createElement('input');
+            idInput.setAttribute('hidden', true);
+            idInput.setAttribute('value', id);
+            idInput.setAttribute('name', 'products_id[]');
+            idCell.setAttribute('hidden', true);
+            idCell.appendChild(idInput);
+            newRow.appendChild(idCell);
 
-        const newRow = '<tr><td>' + productName + '</td><td>' + quantity + '</td><td><input type="number"/></td><td><input type=number' + price + '/></td><td>' + (quantity * price) + '</td><td><button class="btn btn-success btn-sm" onclick = "updateSale(this)">Ok</button></td><td><button class="btn btn-danger btn-sm removeBtn">Remove</button></td></tr>';
-        console.log(targetTable);
+            // Create a cell for the product name
+            const nameCell = document.createElement('td');
+            nameCell.textContent = productName;
+            newRow.appendChild(nameCell);
 
-        console.log(productName, quantity, id);
+            const storeCell = document.createElement('td');
+            storeCell.textContent = quantity;
+            newRow.appendChild(storeCell);
 
-        $insertInto = document.getElementById('selectedProducts');
-        $insertInto.innerHTML += newRow;
+            // const idInput = document.createElement('input');
+            // idInput.setAttribute('hidden', true);
+            // idInput.setAttribute('value', id);
 
-    }
+            // Create a cell for the quantity input
+            const quantityCell = document.createElement('td');
+            const quantityInput = document.createElement('input');
+            quantityInput.setAttribute('type', 'number');
+            quantityInput.setAttribute('name', 'quantity[]');
+            quantityInput.setAttribute('min', '1');
+            quantityInput.setAttribute('max', quantity);
+            quantityInput.setAttribute('value', '1');
+            quantityInput.addEventListener('input', updateSubtotal);
+            quantityCell.appendChild(quantityInput);
+            newRow.appendChild(quantityCell);
 
-    function updateSale(e){
+            // Create a cell for the price input
+            const priceCell = document.createElement('td');
+            const priceInput = document.createElement('input');
+            priceInput.setAttribute('type', 'number');
+            priceInput.setAttribute('name', 'price[]');
+            priceInput.setAttribute('min', 0);
+            priceInput.setAttribute('value', '0');
+            priceInput.addEventListener('input', updateSubtotal);
+            priceCell.appendChild(priceInput);
+            newRow.appendChild(priceCell);
 
-    }
+            // Create a cell for the subtotal
+            const subtotalCell = document.createElement('td');
+            subtotalCell.classList.add('subtotal');
+            subtotalCell.textContent = '0.00';
+            newRow.appendChild(subtotalCell);
 
-    const tbody = document.getElementById('selectedProducts');
+            // Create a cell for the remove button
+            const removeCell = document.createElement('td');
+            const removeButton = document.createElement('button');
+            removeButton.textContent = 'Remove';
+            removeButton.classList.add('btn', 'btn-danger', 'btn-sm');
+            removeButton.addEventListener('click', function () {
+                newRow.remove();
+                updateTotal();
+            });
+            removeCell.appendChild(removeButton);
+            newRow.appendChild(removeCell);
 
-// Function to add a product row to the table
-function addProductRow(e) {
-  // Create a new table row element
-  const cells = e.cells;
-  const newRow = document.createElement('tr');
+            // Append the new row to the table body
+            const tableBody = document.getElementById('selectedProducts');
+            tableBody.appendChild(newRow);
 
-  // Create a cell for the product name
-  const nameCell = document.createElement('td');
-  nameCell.textContent = cells[2].textContent; // assuming the product object has a name property
-  newRow.appendChild(nameCell);
+            updateSubtotal();
+        }
 
-  const quantity = document.createElement('td');
-  quantity.textContent = cells[3].textContent; // assuming the product object has a name property
-  newRow.appendChild(quantity);
+        function updateSubtotal() {
+            const rows = document.querySelectorAll('#selectedProducts tr');
 
-  // Create a cell for the quantity input
-  const quantityCell = document.createElement('td');
-  const quantityInput = document.createElement('input');
-  quantityInput.setAttribute('type', 'number');
-  quantityInput.setAttribute('min', 1);
-  quantityInput.setAttribute('value', 1); // set a default value of 1
-  quantityCell.appendChild(quantityInput);
-  newRow.appendChild(quantityCell);
+            rows.forEach(row => {
+                const quantityInput = row.querySelector('input[name="quantity[]"]');
+                const priceInput = row.querySelector('input[name="price[]"]');
+                const subtotalCell = row.querySelector('.subtotal');
 
-  // Create a cell for the price input
-  const priceCell = document.createElement('td');
-  const priceInput = document.createElement('input');
-  priceInput.setAttribute('type', 'number');
-  priceInput.setAttribute('min', 0);
-  priceInput.setAttribute('value', 0); // assuming the product object has a price property
-  priceCell.appendChild(priceInput);
-  newRow.appendChild(priceCell);
+                const quantity = parseInt(quantityInput.value);
+                const price = parseFloat(priceInput.value);
+                const subtotal = quantity * price;
 
-
-  const deleteCell = document.createElement('td');
-  const deleteButton = document.createElement('button');
-  deleteButton.textContent = 'Remove';
-  deleteButton.addEventListener('click', function() {
-    tbody.removeChild(newRow);
-  });
-  deleteCell.appendChild(deleteButton);
-  newRow.appendChild(deleteCell);
-
-  // Append the new row to the table
-  tbody.appendChild(newRow);
-}
-
-    $(document).ready(function() {
-        $('table#productsTable tr').click(function() {
-            console.log($(this).find('td:eq(1)'))
-            var productName = $(this).find('td:eq(1)').text();
-            var quantity = $(this).find('td:eq(2)').text();
-            var price = $(this).find('td:eq(3)').text();
-
-            var newRow = '<tr><td>' + productName + '</td><td>' + quantity + '</td><td>' + price + '</td><td>' + (quantity * price) + '</td><td><button class="btn btn-danger btn-sm removeBtn">Remove</button></td></tr>';
-
-            $('table#selectedProducts tbody').append(newRow);
-
-            updateTotal();
-        });
-
-        $(document).on('click', '.removeBtn', function() {
-            $(this).closest('tr').remove();
-
-            updateTotal();
-        });
-
-        function updateTotal() {
-            var subtotal = 0;
-
-            $('table#selectedProducts tbody tr').each(function() {
-                var total = parseFloat($(this).find('td:eq(3)').text());
-
-                subtotal += total;
+                subtotalCell.textContent = subtotal.toFixed(2);
             });
 
-            var tax = subtotal * {{ $taxRate }} / 100;
-            var total = subtotal + tax;
-
-            $('table#selectedProducts tfoot #subtotal').text('$' + subtotal.toFixed(2));
-            $('table#selectedProducts tfoot #tax').text('$' + tax.toFixed(2));
-            $('table#selectedProducts tfoot #total').text('$' + total.toFixed(2));
+            updateTotal();
         }
-    });
-</script>
 
+        function updateTotal() {
+            let total = 0;
+            const subtotalCells = document.querySelectorAll('.subtotal');
 
+            subtotalCells.forEach(cell => {
+                total += parseFloat(cell.textContent);
+            });
+
+            const totalElement = document.getElementById('total');
+            totalElement.textContent = '\u09F3' + total.toFixed(2);
+        }
+    </script>
 </x-layout>
-

@@ -24,10 +24,8 @@ use App\Http\Controllers\SalesController;
 Route::group(['middleware' => ['auth:sanctum']], function () {
     
     Route::get('/dashboard', [DashboardControl::class, 'index']);
-    Route::get('/addCat', [CategoryControl::class, 'showForm']);
-    Route::get('/addUnit', [UnitControl::class, 'showForm']);
     Route::get('/register', [UserControl::class, 'register']);
-    Route::get('/addProduct', [ProductControl::class, 'addProduct']);
+   
 
     // Route::get('/search', [ProductControl::class, 'search']);
     

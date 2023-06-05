@@ -14,10 +14,10 @@ public function index(){
 
         $fields = ['Serial', 'Unit Name', 'description', 'Status', 'Action'];
 
-        return view('Setup.base_list')->with(['data'=> $units, 'fields'=> $fields, 'add_new'=>'/addUnit', 'route'=> "/unit", 'view'=>false]);
+        return view('Setup.base_list')->with(['data'=> $units, 'fields'=> $fields, 'add_new'=>'/unit/create', 'route'=> "/unit", 'view'=>false]);
     }
 
-    public function showForm(){
+    public function create(){
         $fields = ['Unit name'=>'name', 'Description' => 'description'];
         return view('Create.base_create')->with(['fields' => $fields, 'route'=> "/unit"]);
     }
@@ -34,7 +34,7 @@ public function index(){
 
             Units::create($form);
 
-            return redirect('/addUnit')->with('success','Units Created Successfully');
+            return redirect('/unit/create')->with('success','Units Created Successfully');
 
         } catch (\Throwable $th) {
             //throw $th;

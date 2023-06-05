@@ -16,7 +16,11 @@ use Illuminate\Support\Facades\File;
 class ProductControl extends Controller
 {
     //
-    public function create(){}
+    public function create(){
+        $categories = Categories::where('status', 1)->whereNull('deleted_at')->get();
+        $units = Units::where('status', 1)->whereNull('deleted_at')->get();
+        return view('Create.product')->with(['categories'=>$categories, 'units'=>$units]);
+    }
     public function index(){
         $products = Products::with(['categories', 'unitInfo'])->whereNull('deleted_at')->paginate(10);
         return view('Setup.product')->with(['data'=> $products]);
@@ -31,11 +35,7 @@ class ProductControl extends Controller
 
         return view('Create.sales')->with(['data'=> $products, 'taxRate'=>15]);
     }
-    public function addProduct(){
-        $categories = Categories::where('status', 1)->whereNull('deleted_at')->get();
-        $units = Units::where('status', 1)->whereNull('deleted_at')->get();
-        return view('Create.product')->with(['categories'=>$categories, 'units'=>$units]);
-    }
+    
     public function store(Request $request){
         try {
             //code...
@@ -83,7 +83,7 @@ class ProductControl extends Controller
 
             DB::commit();
 
-            return redirect('/addProduct')->with('success', 'Product Created Successfully');
+            return redirect('/products/create')->with('success', 'Product Created Successfully');
         } catch (\Throwable $th) {
             //throw $th;
             DB::rollback();

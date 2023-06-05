@@ -54,13 +54,50 @@ class SalesController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        dd($request->all());
         try {
-            //code...
-            // $form = 
+            DB::beginTransaction();
+            $validatedData = $request->validate([
+                'products_id' => 'required|array',
+                'products_id.*' => 'required|exists:products,id',
+                'price' => 'required|array',
+                'price.*' => 'required|numeric|min:0',
+                'clientName' => 'nullable|string',
+                'clientEmail' => 'nullable|email',
+                'quantity' => 'required|array',
+                'quantity.*' => 'required|integer|min:1',
+            ]);
+        
+            // Create an empty array to store the order items
+            $orderItems = [];
+        
+            // Iterate through each product and create an order item
+            foreach ($validatedData['products_id'] as $index => $productId) {
+                $product                = Products::find($productId);
+                $unit                   = $product->value('unit');
+                $quantity               = $product->value('quantity');
+
+                $sale                     = new Sales();
+                $sale->products_id        = $productId;
+                $sale->unit_id            = $unit;
+                $sale->price              = $validatedData['price'][$index];
+                $sale->quantity           = $validatedData['quantity'][$index];
+                $sale->clientName         = isset($validatedData['clientName']) ? $validatedData['clientName'] : null;
+                $sale->clientEmail        = isset($validatedData['clientEmail']) ? $validatedData['clientEmail'] : null;
+                $sale->created_by         = auth()->user()->id;
+                $sale->save();
+                
+
+                $product->quantity      = (int)$quantity - (int)$validatedData['quantity'][$index];
+                $product->save();
+            }
+            DB::commit();
+            // Redirect or return a response indicating the success
+            return redirect()->back()->with('success', 'Order created successfully.');
         } catch (\Throwable $th) {
             //throw $th;
+            DB::rollback();
+            \Log::error($th);
+            return back()->with('error', $th->getMessage());
         }
     }
 
