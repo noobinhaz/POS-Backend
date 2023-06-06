@@ -24,20 +24,18 @@ class Fields
 
     public static function AddCommonField($table)
     {
-        $table->unsignedBigInteger('created_by')->nullable();
-        $table->unsignedBigInteger('updated_by')->nullable();
-        $table->unsignedBigInteger('deleted_by')->nullable();
-        $table->softDeletes('deleted_at')->nullable();
+        $table->uuid('created_by')->nullable();
         $table->timestamps();
+        $table->timestamp('deleted_at')->nullable()->default(null);
     }
 
     public static function AddCommonFieldWithoutforeign($table)
     {
-        $table->unsignedBigInteger('created_by')->nullable();
-        $table->unsignedBigInteger('updated_by')->nullable();
-        $table->unsignedBigInteger('deleted_by')->nullable();
-        $table->softDeletes('deleted_at')->nullable();
+        $table->uuid('created_by')->nullable();
+        $table->uuid('updated_by')->nullable();
+        $table->uuid('deleted_by')->nullable();
         $table->timestamps();
+        $table->timestamp('deleted_at')->nullable()->default(null);
     }
 
     public static function createCommonFields($fields, $resource): array

@@ -41,7 +41,7 @@
             
           </div>
         </div>
-        <div class="col-md-10">
+        <div class="col-md-10 justify-content-start pl-0 ml-0">
            <x-flash />
             {{$slot}}
         </div>

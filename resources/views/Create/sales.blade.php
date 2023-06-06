@@ -1,21 +1,31 @@
 <x-layout>
-    <div class="container">
+    <div class="container ml-2 pl-1">
         <div class="row">
             <div class="col-md-12">
-                <h2>POS Order</h2>
+                <h2>Product Sales</h2>
                 <hr>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4">
-                <form action="/order/create" method="GET">
-                    <div class="input-group">
-                        <input type="text" name="search" class="form-control" placeholder="Search...">
-                        <div class="input-group-append">
-                            <button type="submit" class="btn btn-outline-secondary">Search</button>
+            <div class="col col-md-4 pr-1">
+                <div class="row">
+
+                    <form action="/order/create" method="GET">
+                        <div class="input-group">
+                            <input type="text" name="search" class="form-control" placeholder="Search...">
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-outline-secondary bg-success text-white">Search</button>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                    <form action="/order/create" method="GET">
+                        <div class="input-group">
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-outline-secondary bg-danger text-white">X</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
 
                 <div class="list-group" id="searchResults">
                     <!-- Product search results will be added dynamically here -->
@@ -35,7 +45,7 @@
                         <tbody>
                             @foreach($data as $index=>$product)
                             <tr onclick="addProductRow(this)">
-                                <td>{{$product->id}} </td>
+                                <td>{{$index+1}} </td>
                                 <td><img src="{{ $product->image ? asset($product->image->location) : 'https://placehold.co/100'}}" alt="{{$product->image ? $product->image->name: null}}" style="height: 100px; width:100px;"></td>
                                 <td>{{$product->productName}}</td>
                                 <td>{{$product->quantity}}</td>
@@ -50,7 +60,7 @@
                 </div>
             </div>
             <hr>
-            <div class="col-md-8">
+            <div class="col col-md-8">
                 <div class="row">
                     <div class="col-md-12">
                         <h4>Selected Products</h4>

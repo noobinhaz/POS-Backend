@@ -18,11 +18,9 @@ class SalesController extends Controller
     public function index()
     {
         //
-        $sales = Sales::with(['product'])->whereNull('deleted_at')->paginate(10);
+        $sales = Sales::with(['product', 'unit', 'user'])->whereNull('deleted_at')->paginate(10);
 
-        //FIXME: return a view to show sales list
-
-        return "Sales index";
+        return view('Setup.sales')->with(['sales' => $sales]);
     }
 
     /**
@@ -41,8 +39,8 @@ class SalesController extends Controller
                             $eloquent->where('productName', 'like', '%'.$query.'%');
                         }
                     })
-                    ->get();
-                    // dd($products);
+                    ->latest()
+                    ->paginate(20);
         return view('Create.sales')->with(['taxRate'=> 15, 'data'=> $products]);
     }
 
@@ -73,8 +71,8 @@ class SalesController extends Controller
             // Iterate through each product and create an order item
             foreach ($validatedData['products_id'] as $index => $productId) {
                 $product                = Products::find($productId);
-                $unit                   = $product->value('unit');
-                $quantity               = $product->value('quantity');
+                $unit                   = $product->unit;
+                $quantity               = $product->quantity;
 
                 $sale                     = new Sales();
                 $sale->products_id        = $productId;
@@ -86,7 +84,6 @@ class SalesController extends Controller
                 $sale->created_by         = auth()->user()->id;
                 $sale->save();
                 
-
                 $product->quantity      = (int)$quantity - (int)$validatedData['quantity'][$index];
                 $product->save();
             }
@@ -102,40 +99,6 @@ class SalesController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -144,5 +107,18 @@ class SalesController extends Controller
     public function destroy($id)
     {
         //
+        $sale = Sales::find($id);
+
+        $product = Products::find($sale->products_id);
+
+        if($product){
+
+            $product->quantity = (int)$product->quantity + (int)$sale->quantity;
+            $product->save();
+        }
+
+        $sale->delete();
+
+        return back()->with('message', 'Sale Successfully Deleted!');
     }
 }

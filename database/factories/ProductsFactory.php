@@ -40,7 +40,7 @@ class ProductsFactory extends Factory
         return [
             'productName'   => fake()->sentence(),
             'quantity'      => random_int(5, 20),
-            'unit'          => random_int(1,3),
+            'unit'          => random_int(1,7),
             'priceCode'     => uniqid(),
             'description'   => fake()->paragraph(),
             'uploadedBy'    => 1  

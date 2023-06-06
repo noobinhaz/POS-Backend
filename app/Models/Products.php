@@ -10,10 +10,12 @@ use App\Traits\Uuids;
 use App\Models\CategoriesProduct;
 use App\Models\Categories;
 use App\Models\Units;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Products extends Model
 {
     use HasFactory, Uuids;
+    use SoftDeletes;
 
     protected $fillable = [
         'productName', 'quantity', 'unit', 

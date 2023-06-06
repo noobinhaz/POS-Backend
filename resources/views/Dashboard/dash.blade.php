@@ -11,23 +11,23 @@
             <div class="card text-white bg-primary">
               <div class="card-body">
                 <h5 class="card-title">Total Sales</h5>
-                <p class="card-text">$50,000</p>
+                <p class="card-text">{{$total_sales}}</p>
               </div>
             </div>
           </div>
           <div class="col-md-3">
             <div class="card text-white bg-secondary">
               <div class="card-body">
-                <h5 class="card-title">Total Orders</h5>
-                  <p class="card-text">500</p>
+                <h5 class="card-title">Today Sales</h5>
+                  <p class="card-text">{{$today_sales}}</p>
               </div>
             </div>
           </div>
           <div class="col-md-3">
             <div class="card text-white bg-success">
               <div class="card-body">
-                <h5 class="card-title">Total Customers</h5>
-                <p class="card-text">200</p>
+                <h5 class="card-title">Today Orders</h5>
+                <p class="card-text">{{$today_orders}}</p>
               </div>
             </div>
           </div>
@@ -35,12 +35,14 @@
             <div class="card text-white bg-danger">
               <div class="card-body">
                 <h5 class="card-title">Out of Stock</h5>
-                <p class="card-text">10</p>
+                <p class="card-text">{{$out_of_stock}}</p>
               </div>
             </div>
           </div>
         </div>
 	      <hr>
+        //FIXME: show out of stock products list
+        //FIXME: show highest running products list past week
 	      <h5 class="card-title mt-3">Recent Orders</h5>
 	      <table class="table">
 	        <thead>
