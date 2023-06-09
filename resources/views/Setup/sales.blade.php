@@ -45,6 +45,13 @@
                 <tfoot>No Data Found</tfoot> 
             @endunless
         </table>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="pagination justify-content-center">
+                    {{ $sales->links() }}
+                </div>
+            </div>
+        </div>
     </div>
 
 </x-layout>

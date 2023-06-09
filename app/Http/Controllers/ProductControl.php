@@ -22,7 +22,7 @@ class ProductControl extends Controller
         return view('Create.product')->with(['categories'=>$categories, 'units'=>$units]);
     }
     public function index(){
-        $products = Products::with(['categories', 'unitInfo'])->whereNull('deleted_at')->paginate(10);
+        $products = Products::with(['categories', 'unitInfo'])->withCount('sales')->whereNull('deleted_at')->paginate(10);
         return view('Setup.product')->with(['data'=> $products]);
     }
 

@@ -35,51 +35,74 @@
             <div class="card text-white bg-danger">
               <div class="card-body">
                 <h5 class="card-title">Out of Stock</h5>
-                <p class="card-text">{{$out_of_stock}}</p>
+                <p class="card-text">{{$out_of_stock->count()}}</p>
               </div>
             </div>
           </div>
         </div>
 	      <hr>
-        //FIXME: show out of stock products list
-        //FIXME: show highest running products list past week
-	      <h5 class="card-title mt-3">Recent Orders</h5>
-	      <table class="table">
-	        <thead>
-		        <tr>
-	  	        <th>Order ID</th>
-		          <th>Customer</th>
-              <th>Total</th>
-  		        <th>Date</th>
-		          <th>Status</th>
-		          <th>Actions</th>
-		        </tr>
-	        </thead>
-	        <tbody>
-		        <tr>
-		          <td>12345</td>
-              <td>John Doe</td>
-		          <td>$50</td>
-		          <td>01/01/2021</td>
-		          <td>Completed</td>
-		          <td>
-		            <a href="#" class="btn btn-primary btn-sm">View</a>
-  		          <a href="#" class="btn btn-danger btn-sm">Cancel</a>
-		          </td>
-		        </tr>
-            <tr>
-              <td>12346</td>
-              <td>Jane Smith</td>
-              <td>$75</td>
-              <td>01/02/2021</td>
-              <td>Pending</td>
-              <td>
-                <a href="#" class="btn btn-primary btn-sm">View</a>
-                <a href="#" class="btn btn-danger btn-sm">Cancel</a>
-              </td>
-            </tr>
-	        </tbody>
-	    </table>
+        <section id="out-of-stock">
+          <div class="text-center">
+            <h2>Out Of Stock Products</h2>
+          </div>
+          <table class="table">
+              <thead>
+                  <tr>
+                      <th>Serial</th>
+                      <th>Product Name</th>
+                      <th>Quantity</th>
+                      <th>Unit Name</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  @foreach ($out_of_stock as $index => $product)
+              
+                  <tr>
+                      <td>{{ $index + 1 }}</td>
+                      <td>{{ $product['productName'] }}</td>
+                      <td>{{ $product['quantity'] }}</td>
+                      <td>{{ $product->unitInfo ? $product->unitInfo->name : 'N/A' }}</td>
+                  </tr>
+                  @endforeach
+              </tbody>
+          </table>
+          <div class="row justify-content-center">
+              <div class="col-md-6">
+                  <div class="pagination justify-content-center">
+                      {{ $out_of_stock->links() }}
+                  </div>
+              </div>
+          </div>        
+      </section>
+    <hr/>
+        <section id="highest_running">
+        <div class="text-center">
+            <h2>Highest Sold Products</h2>
+          </div>
+          <table class="table">
+              <thead>
+                  <tr>
+                      <th>Serial</th>
+                      <th>Product Name</th>
+                      <th>Quantity</th>
+                      <th>Unit Name</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  @foreach ($highest_sold as $index => $product)
+              
+                  <tr>
+                      <td>{{ $index + 1 }}</td>
+                      <td>{{ $product['productName'] }}</td>
+                      <td>{{ $product['quantity'] }}</td>
+                      <td>{{ $product->unitInfo ? $product->unitInfo->name : 'N/A' }}</td>
+                  </tr>
+                  @endforeach
+              </tbody>
+          </table>
+          
+        </section>
+        <hr>
 	  </div>
 	</div>
 </x-layout>

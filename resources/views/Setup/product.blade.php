@@ -31,7 +31,7 @@
                     <td>{{ $product->productName }}</td>
                     <td>{{ $product->quantity }}</td>
                     <td>{{ $product->unitInfo->name }}</td>
-                    <td class="col-md-1">{{ $product->sold }}</td>
+                    <td class="col-md-1">{{ $product->sales_count }}</td>
                     <td>
                         <a href="{{ route('products.show', $product->id) }}" class="btn btn-info">View</a>
                         <a href="{{ route('products.edit', $product->id) }}" class="btn btn-warning">Edit</a>
@@ -45,6 +45,13 @@
                 @endforeach
             </tbody>
         </table>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="pagination justify-content-center">
+                    {{ $data->links() }}
+                </div>
+            </div>
+        </div>
     </div>
 
 </x-layout>    

@@ -43,8 +43,12 @@
                 
             <tbody>
         </table>
-        <div class="row">
-            {{ $data->links() }}
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="pagination justify-content-center">
+                    {{ $data->links() }}
+                </div>
+            </div>
         </div>
     <div>
 </x-layout>

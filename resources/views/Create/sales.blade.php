@@ -1,11 +1,15 @@
 <x-layout>
-    <div class="container ml-2 pl-1">
+    <div class="container ml-2">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-6 justify-content-start">
                 <h2>Product Sales</h2>
-                <hr>
             </div>
+            <div class="col-md-6 justify-content-end">
+                <a href="/order" class="btn btn-warning">Back</a>
+            </div>
+            <hr>
         </div>
+
         <div class="row">
             <div class="col col-md-4 pr-1">
                 <div class="row">
@@ -63,7 +67,9 @@
             <div class="col col-md-8">
                 <div class="row">
                     <div class="col-md-12">
-                        <h4>Selected Products</h4>
+                        <div class="text-center">
+                            <h4>Selected Products</h4>
+                        </div>
                         <form action="/order" method="post" id="productForm">
                             @csrf
 
