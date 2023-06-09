@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>POS Admin Dashboard</title>
+    <title>POS Admin</title>
     <link rel="stylesheet" href="app.css">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -51,7 +51,7 @@
 </head>
 <body>
 <div class="container-fluid">
-    <h1 class="text-center mb-3">POS Admin Dashboard</h1>
+    <h2 class="mb-3">Haque POS Admin</h2>
     <div class="row">
         <div class="col-md-2 pl-0">
             <div class="list-group sidebar">

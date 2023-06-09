@@ -14,7 +14,7 @@ public function index(){
 
         $fields = ['Serial', 'Unit Name', 'description', 'Status', 'Action'];
 
-        return view('Setup.base_list')->with(['data'=> $units, 'fields'=> $fields, 'add_new'=>'/unit/create', 'route'=> "/unit", 'view'=>false]);
+        return view('Setup.base_list')->with(['data'=> $units, 'fields'=> $fields, 'add_new'=>'/unit/create', 'route'=> "/unit", 'view'=>false, 'title'=>'Product Unit List']);
     }
 
     public function create(){

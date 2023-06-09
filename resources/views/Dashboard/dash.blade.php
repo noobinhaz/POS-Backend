@@ -1,8 +1,8 @@
 <x-layout>
   <div>
     <div class="card">
-      <div class="card-header">
-        Welcome to the POS Admin Dashboard
+      <div class="card-header text-center">
+        <h3>Welcome to the POS Admin Dashboard</h3>
       </div>
       <div class="card-body">
         <h5 class="card-title">Quick Stats</h5>

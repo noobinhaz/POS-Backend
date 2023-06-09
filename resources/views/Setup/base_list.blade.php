@@ -1,5 +1,9 @@
 <x-layout>
-    <div>
+    <div class="card">
+        <div class="card-header text-center">
+            {{$title}}
+        </div>
+        <div class="card-body">
         <div class='d-flex justify-content-end'>
 
             <a href="{{$add_new}}" style="display:block; color:black"><button class="btn btn-success">Add New</button></a>
@@ -51,4 +55,5 @@
             </div>
         </div>
     <div>
+    </div>
 </x-layout>

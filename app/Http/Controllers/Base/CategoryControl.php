@@ -15,7 +15,7 @@ class CategoryControl extends Controller
 
         $fields = ['Serial', 'Category Name', 'Status', 'Action'];
 
-        return view('Setup.base_list')->with(['data'=> $categories, 'fields'=> $fields, 'add_new'=>'/category/create', 'route'=> "/category", 'view'=>true]);
+        return view('Setup.base_list')->with(['data'=> $categories, 'fields'=> $fields, 'add_new'=>'/category/create', 'route'=> "/category", 'view'=>true, 'title'=>'Category List']);
     }
 
     public function create(){
