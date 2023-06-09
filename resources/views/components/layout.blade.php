@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="UTF-8">
     <title>POS Admin Dashboard</title>
     <link rel="stylesheet" href="app.css">
@@ -15,40 +15,100 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
-  </head>
-  <body>
-   
-    <div class="container-fluid">
-      <h1 class="text-center mb-3">POS Admin Dashboard</h1>
-      <div class="row">
-        <div class="col-md-2">
-          <div class="list-group">
-            <a href="/dashboard" class="list-group-item list-group-item-action">Dashboard</a>
-            <div class="btn-group list-group-item list-group-item-action dropright">
-                <button class="btn bg-white text-grey dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Setup
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="/unit">Unit</a>
-                    <a class="dropdown-item" href="/category">Category</a>
+    <style>
+        .sidebar {
+            height: calc(100vh - 56px); /* Adjust the height as needed */
+            overflow-y: auto;
+        }
+
+        .btn-as-text {
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: 1rem;
+            color: #007bff;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .btn-as-text:hover {
+            color: #0056b3;
+        }
+
+        .active {
+            background-color: #f8f9fa;
+        }
+    </style>
+
+    <script>
+        $(document).ready(function() {
+            $('.list-group-item-action').on('click', function() {
+                $('.list-group-item-action').removeClass('active');
+                $(this).addClass('active');
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="container-fluid">
+    <h1 class="text-center mb-3">POS Admin Dashboard</h1>
+    <div class="row">
+        <div class="col-md-2 pl-0">
+            <div class="list-group sidebar">
+                <a href="/dashboard" class="list-group-item list-group-item-action">
+                    <button type="button" class="btn btn-outline-success">
+                        Dashboard
+                    </button>
+                </a>
+                <div class="btn-group list-group-item list-group-item-action dropright">
+                    <button class="btn btn-outline-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Setup
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="/unit">Unit</a>
+                        <a class="dropdown-item" href="/category">Category</a>
+                    </div>
                 </div>
+                <a href="/products" class="list-group-item list-group-item-action">
+                    <button type="button" class="btn btn-outline-primary">
+                        Products
+                    </button>
+                </a>
+                <a href="/order" class="list-group-item list-group-item-action">
+                    <button type="button" class="btn btn-outline-primary">
+                        Orders
+                    </button>
+                </a>
+                <a href="/expense" class="list-group-item list-group-item-action">
+                    <button type="button" class="btn btn-outline-primary">
+                        Expenses
+                    </button>
+                </a>
+                <a href="/users" class="list-group-item list-group-item-action">
+                    <button type="button" class="btn btn-outline-warning">
+                        Users
+                    </button>
+                </a>
+                <a href="/settings" class="list-group-item list-group-item-action">
+                    <button type="button" class="btn btn-outline-warning">
+                        Settings
+                    </button>
+                </a>
+                <a href="/logout" class="list-group-item list-group-item-action">
+                    <form method="POST" class="inline" action="/logout">
+                        @csrf
+                        <button type="submit" class="btn btn-outline-danger">
+                            Logout
+                        </button>
+                    </form>
+                </a>
             </div>
-            <a href="/products" class="list-group-item list-group-item-action">Products</a>
-            <a href="/order" class="list-group-item list-group-item-action">Order</a>
-            <a href="/expense" class="list-group-item list-group-item-action">Expenses</a>
-            <a href="/users" class="list-group-item list-group-item-action">Users</a>
-            <a href="/settings" class="list-group-item list-group-item-action">Settings</a>
-            
-          </div>
         </div>
         <div class="col-md-10 justify-content-start pl-0 ml-0">
-           <x-flash />
+            <x-flash />
             {{$slot}}
         </div>
-        </div>
-	</div>
-   
-	</body>
-	
-  
+    </div>
+</div>
+</body>
 </html>

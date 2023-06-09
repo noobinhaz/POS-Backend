@@ -84,8 +84,8 @@
                   <tr>
                       <th>Serial</th>
                       <th>Product Name</th>
-                      <th>Quantity</th>
-                      <th>Unit Name</th>
+                      <th>Sold</th>
+                      <th>Unit</th>
                   </tr>
               </thead>
               <tbody>

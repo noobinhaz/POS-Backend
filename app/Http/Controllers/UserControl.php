@@ -125,5 +125,14 @@ class UserControl extends Controller
     public function login(Request $request){
         return view('Users.login');
     }
+
+    public function logout(Request $request){
+        auth()->guard('web')->logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/')->with('message', 'Logout Success.');
+    }
 }   
 

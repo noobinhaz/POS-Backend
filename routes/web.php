@@ -25,6 +25,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     
     Route::get('/dashboard', [DashboardControl::class, 'index']);
     Route::get('/register', [UserControl::class, 'register']);
+    Route::post('/logout', [UserControl::class, 'logout']);
    
 
     // Route::get('/search', [ProductControl::class, 'search']);
