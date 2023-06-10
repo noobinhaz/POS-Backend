@@ -1,13 +1,16 @@
 <x-layout>
     <div class="card">
-        <div class="card-header text-center">
-            {{$title}}
+        <div class="card-header">
+            <div class="row justify-content-around">
+                <div>
+                    {{$title}}
+                </div>
+                <div>
+                    <a href="{{$add_new}}" style="display:block; color:black"><button class="btn btn-success">Add New</button></a>
+                </div>
+            </div>
         </div>
         <div class="card-body">
-        <div class='d-flex justify-content-end pr-3'>
-
-            <a href="{{$add_new}}" style="display:block; color:black"><button class="btn btn-success">Add New</button></a>
-        </div>
         <table class='table'>
             @unless(count($data) == 0 )
             <thead>

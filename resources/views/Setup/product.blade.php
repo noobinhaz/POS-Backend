@@ -3,10 +3,14 @@
     <div class="card">
         
         <div class="card-header text-center">
-            <h2>Products</h2>
-        </div>
-        <div class="d-flex justify-content-end pr-3">
-            <a href="/products/create" class="btn btn-success mb-3">Add Product</a>
+            <div class="row justify-content-around">
+                <div>
+                    <h2>Products</h2>
+                </div>
+                <div>
+                    <a href="/products/create" class="btn btn-success mb-3">Add Product</a>
+                </div>
+            </div>
         </div>
         <div class="card-body">
         <table class="table">
