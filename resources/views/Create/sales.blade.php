@@ -1,18 +1,19 @@
 <x-layout>
-    <div class="container ml-2">
-        <div class="row">
-            <div class="col-md-6 justify-content-start">
-                <h2>Product Sales</h2>
+    <div class="card ml-0 mr-0 justify-content-center">
+        <div class="card-header">
+            <div class="row justify-content-around">
+                <div>
+                    <h2>Product Sales</h2>
+                </div>
+                <div>
+                    <a href="/order" class="btn btn-warning">Back</a>
+                </div>
             </div>
-            <div class="col-md-6 justify-content-end">
-                <a href="/order" class="btn btn-warning">Back</a>
-            </div>
-            <hr>
         </div>
 
-        <div class="row">
-            <div class="col col-md-4 pr-1">
-                <div class="row">
+        <div class="card-body row">
+            <div class="card col-md-4 pr-2">
+                <div class="card-header bg-white row">
 
                     <form action="/order/create" method="GET">
                         <div class="input-group">
@@ -33,7 +34,6 @@
 
                 <div class="list-group" id="searchResults">
                     <!-- Product search results will be added dynamically here -->
-                    <!-- Use JavaScript/jQuery to handle adding products to the order table -->
 
                     @unless(empty($data))
                     <table>
@@ -63,11 +63,10 @@
                     @endunless
                 </div>
             </div>
-            <hr>
             <div class="col col-md-8">
                 <div class="row">
-                    <div class="col-md-12">
-                        <div class="text-center">
+                    <div class="card" style="width: 60rem;">
+                        <div class="card-header text-center">
                             <h4>Selected Products</h4>
                         </div>
                         <form action="/order" method="post" id="productForm">
@@ -85,8 +84,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="selectedProducts">
-                                    <!-- Selected products will be added dynamically here -->
-                                    <!-- Use JavaScript/jQuery to handle removing products from the order table -->
+                                    
                                 </tbody>
                                 <tfoot>
                                     <tr>
@@ -95,7 +93,7 @@
                                     </tr>
                                 </tfoot>
                             </table>
-                            <div class="row justify-content-between align-items-center">
+                            <div class="card pl-1">
                                 <div class="row">
                                     <div class="col-md-4 col-sm-6 pt-2">
                                         <label for="clientName">Client Name:</label>
@@ -114,9 +112,9 @@
                                 </div>
                             </div>
                             <br>
-                            <div class="row">
+                            <div class="row text-center">
                                 <div class="col-md-12">
-                                    <button class="btn btn-success btn-lg btn-block" id="checkoutBtn" type="submit">Checkout</button>
+                                    <button class="btn btn-success btn-center" id="checkoutBtn" type="submit">Checkout</button>
                                 </div>
                             </div>
 

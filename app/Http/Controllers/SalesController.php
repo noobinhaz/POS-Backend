@@ -18,7 +18,7 @@ class SalesController extends Controller
     public function index()
     {
         //
-        $sales = Sales::with(['product', 'unit', 'user'])->whereNull('deleted_at')->paginate(10);
+        $sales = Sales::with(['product', 'unit', 'user'])->whereNull('deleted_at')->latest()->paginate(10);
 
         return view('Setup.sales')->with(['sales' => $sales]);
     }
@@ -66,7 +66,10 @@ class SalesController extends Controller
             ]);
         
             // Create an empty array to store the order items
-            $orderItems = [];
+            $invoice_id = uniqid();
+            if(Sales::where('invoice_id', $invoice_id)->first()){
+                $invoice_id = uniqid();
+            }
         
             // Iterate through each product and create an order item
             foreach ($validatedData['products_id'] as $index => $productId) {
@@ -82,6 +85,7 @@ class SalesController extends Controller
                 $sale->clientName         = isset($validatedData['clientName']) ? $validatedData['clientName'] : null;
                 $sale->clientEmail        = isset($validatedData['clientEmail']) ? $validatedData['clientEmail'] : null;
                 $sale->created_by         = auth()->user()->id;
+                $sale->invoice_id         = $invoice_id;
                 $sale->save();
                 
                 $product->quantity      = (int)$quantity - (int)$validatedData['quantity'][$index];

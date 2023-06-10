@@ -16,7 +16,7 @@ class Sales extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'products_id', 'price', 'clientName', 'clientEmail', 'quantity', 'unit_id', 'created_by'
+        'products_id', 'price', 'clientName', 'clientEmail', 'quantity', 'unit_id', 'created_by', 'invoice_id'
     ];
 
     public function product(){

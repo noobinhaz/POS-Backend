@@ -1,17 +1,21 @@
 <x-layout>
-    <div class="container">
-        <div class="row d-flex justify-content-between">
+    <div class="card">
+        
+        <div class="card-header text-center">
             <h2>Sales</h2>
+        </div>
+        <div class="d-flex justify-content-end pr-3 pt-1 pb-0 mb-0">
             <a href="/order/create" class="btn btn-success mb-3">Add Sales</a>
         </div>
+        <div class="card-body">
         <table class="table table-bordered">
             <thead>
                 <tr>
                     <th>Index</th>
                     <th>Client Name</th>
                     <th>Product Name</th>
+                    <th>Invoice</th>
                     <th>Quantity</th>
-                    <th>Unit</th>
                     <th>Price</th>
                     <th>Sold By</th>
                     <th>Sold At</th>
@@ -26,8 +30,8 @@
                         <td>{{ $index + 1 }}</td>
                         <td>{{ $data['clientName'] ? $data['clientName'] : 'N/A' }}</td>
                         <td>{{ $data->product->productName }}</td>
-                        <td>{{ $data['quantity'] }}</td>
-                        <td>{{ $data->unit->name }}</td>
+                        <td>{{ $data->invoice_id ?? 'N/A' }}</td>
+                        <td>{{ $data['quantity'] . " ". $data->unit->name }}</td>
                         <td>{{ (int)$data['price'] }}</td>
                         <td>{{ $data->user ? $data->user->fullName : null }}</td>
                         <td>{{ date('Y-m-d', strtotime($data['created_at'])) }}</td>
