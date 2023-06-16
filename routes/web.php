@@ -36,7 +36,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::resource('/products', ProductControl::class)->except('update');
     Route::post('/products/{id}', [ProductControl::class, 'update']);
     Route::resource('/category', CategoryControl::class);
-    Route::resource('/order', SalesController::class);
+    Route::resource('/order', SalesController::class)->except('show');
+    Route::get('/invoice', [SalesController::class, 'show']);
 });
 
 

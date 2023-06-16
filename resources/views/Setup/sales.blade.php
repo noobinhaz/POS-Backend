@@ -2,15 +2,24 @@
     <div class="card">
         
         <div class="card-header text-center">
-            <div class="row justify-content-around">
-                <div>
+            <div class="row justify-content-between align-items-center">
+                <div class="col">
                     <h2>Sales</h2>
                 </div>
-                <div>
-                    <a href="/order/create" class="btn btn-success mb-3">Add Sales</a>
+                <div class="col">
+                    <a href="/order/create" class="btn btn-success ">Add Sales</a>
+                </div>
+                <div class="col-auto align-items-center">
+                    <form action="/invoice" method="get" class="input-group">
+                        <input type="text" class="form-control" placeholder="Invoice No" aria-label="Invoice No" name="invoice_id" id="invoice-input">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary text-dark bg-warning" type="submit" id="print-button">Print</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
+
         <div class="card-body">
         <table class="table table-bordered">
             <thead>
@@ -61,5 +70,19 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // Get the input and button elements
+        const input = document.getElementById('invoice-input');
+        const button = document.getElementById('print-button');
+        
+        // Disable the button initially
+        button.disabled = true;
+        
+        // Enable or disable the button based on input value
+        input.addEventListener('input', function() {
+            button.disabled = !input.value;
+        });
+    </script>
 
 </x-layout>

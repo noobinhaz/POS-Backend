@@ -18,7 +18,7 @@ class SalesController extends Controller
     public function index()
     {
         //
-        $sales = Sales::with(['product', 'unit', 'user'])->whereNull('deleted_at')->latest()->paginate(10);
+        $sales = Sales::with(['product', 'unit', 'user'])->whereNull('deleted_at')->orderBy('created_at')->paginate(10);
 
         return view('Setup.sales')->with(['sales' => $sales]);
     }
@@ -94,6 +94,24 @@ class SalesController extends Controller
             DB::commit();
             // Redirect or return a response indicating the success
             return redirect()->back()->with('success', 'Order created successfully.');
+        } catch (\Throwable $th) {
+            //throw $th;
+            DB::rollback();
+            \Log::error($th);
+            return back()->with('error', $th->getMessage());
+        }
+    }
+
+    public function show(Request $request){
+        try {
+            //code...
+            $invoice = $request->invoice_id;
+            if(empty($invoice)){
+                throw new \Exception('No Invoice found');
+            }
+            $sales = Sales::with(['product', 'unit', 'user'])->whereNull('deleted_at')->where('invoice_id', $invoice)->get();
+
+            return view('Show.invoice')->with(['sales'=>$sales]);
         } catch (\Throwable $th) {
             //throw $th;
             DB::rollback();
